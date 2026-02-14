@@ -151,6 +151,10 @@
       transform: translateY(-26px);
     }
 
+    #cardWrapper.step3 { transform: translateY(-46px); }
+#cardWrapper.step4 { transform: translateY(-66px); }
+
+
     #kittyTop{
   position: absolute;
   top: -200px;             /* подбирай */
@@ -351,8 +355,31 @@
           <div><button id="no1" class="btnNo">no</button></div>
         </div>
       </div>
+
+      <!-- Карточка 2 -->
+<div id="card3" class="card popIn hidden">
+  <div class="cardInner">
+    <div id="title3" class="title">REALLY???</div>
+    <div class="subtle"></div>
+    <button id="yes3" class="btnYes">yes💘</button>
+    <div><button id="no3" class="btnNo">no</button></div>
+  </div>
+</div>
+
+<!-- Карточка 3 -->
+<div id="card2" class="card popIn hidden">
+  <div class="cardInner">
+    <div id="title2" class="title">are you 1000000000% sure???</div>
+    <div class="subtle"></div>
+    <button id="yes2" class="btnYes">yes💘</button>
+    <div><button id="no2" class="btnNo">no</button></div>
+  </div>
+</div>
     </div>
   </div>
+
+  
+
 
   <!-- Финальная сцена: много котиков + текст -->
   <div id="finalKitties" class="hidden" aria-hidden="true"></div>
@@ -2473,6 +2500,15 @@
     const card1 = document.getElementById("card1");
     const title0 = document.getElementById("title0");
 
+    const card2 = document.getElementById("card2");
+const card3 = document.getElementById("card3");
+
+const yes2 = document.getElementById("yes2");
+const no2  = document.getElementById("no2");
+const yes3 = document.getElementById("yes3");
+const no3  = document.getElementById("no3");
+
+
     const yes0 = document.getElementById("yes0");
     const no0 = document.getElementById("no0");
     const yes1 = document.getElementById("yes1");
@@ -2512,28 +2548,63 @@ no0.addEventListener("click", () => {
 });
 
 
-    // YES на первом поле => поле 0 исчезает, появляется поле 1 немного выше
-    yes0.addEventListener("click", () => {
-      hide(card0);
-      show(card1);
-      cardWrapper.classList.add("step2");
-    });
+    // YES на первом поле => поле 0 исчезает, появляется поле 1
+yes0.addEventListener("click", () => {
+  hide(card0);
+  show(card1);
+  cardWrapper.classList.add("step2");
+});
 
-    // NO на втором поле — вернёмся на первое (не просили, но логично)
-    no1.addEventListener("click", () => {
-      hide(card1);
-      show(card0);
-      cardWrapper.classList.remove("step2");
-      shakeOnce(cardWrapper);
-    });
+// NO на втором поле => назад на первое
+no1.addEventListener("click", () => {
+  hide(card1);
+  show(card0);
+  cardWrapper.classList.remove("step2", "step3", "step4");
+  shakeOnce(cardWrapper);
+});
 
-    // YES на втором поле => финальная сцена
-    yes1.addEventListener("click", () => {
-      hide(cardWrapper);
-      show(finalKitties);
-      show(finalScene);
-      spawnKitties();
-    });
+// YES на втором => показать card2
+yes1.addEventListener("click", () => {
+  hide(card1);
+  show(card2);
+  cardWrapper.classList.remove("step2");
+  cardWrapper.classList.add("step3");
+});
+
+// NO на третьем (card2) => назад на card1
+no2.addEventListener("click", () => {
+  hide(card2);
+  show(card1);
+  cardWrapper.classList.remove("step3");
+  cardWrapper.classList.add("step2");
+  shakeOnce(cardWrapper);
+});
+
+// YES на третьем => показать card3
+yes2.addEventListener("click", () => {
+  hide(card2);
+  show(card3);
+  cardWrapper.classList.remove("step3");
+  cardWrapper.classList.add("step4");
+});
+
+// NO на четвертом (card3) => назад на card2
+no3.addEventListener("click", () => {
+  hide(card3);
+  show(card2);
+  cardWrapper.classList.remove("step4");
+  cardWrapper.classList.add("step3");
+  shakeOnce(cardWrapper);
+});
+
+// YES на четвертом => финальная сцена
+yes3.addEventListener("click", () => {
+  hide(cardWrapper);
+  show(finalKitties);
+  show(finalScene);
+  spawnKitties();
+});
+
 
     // ------------------------------
     // 4) Финал: много котиков
